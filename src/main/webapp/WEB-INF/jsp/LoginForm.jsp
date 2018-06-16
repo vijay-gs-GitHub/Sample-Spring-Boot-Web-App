@@ -47,7 +47,7 @@ $(function() {
          error : function(e){
              console.log('Error ='+e.status+'message'+e.message);
              
-             if(e.status == 404){
+             if(e.status == 401){
                  $('#resultContainer').hide();
 
                  //Set response

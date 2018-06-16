@@ -64,8 +64,8 @@ public class LoginController {
 		}else{
 
 			if(!user.getUserName().equals(userName) && !user.getPassword().equals(password)){
-				status = HttpStatus.NOT_FOUND;
-				response.setStatus(404);
+				status = HttpStatus.UNAUTHORIZED;
+				response.setStatus(401);
 				response.setStatusCode(FAILED);
 				response.setMessage("User Not Found !!");
 			}  
