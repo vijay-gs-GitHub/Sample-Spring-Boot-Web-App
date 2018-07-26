@@ -27,11 +27,11 @@ public class LoginController {
 	private static Logger logger = LogManager.getLogger(LoginController.class);
 	public static final String SUCCESS = "SUCCESS";
 	public static final String FAILED = "FAILED";
-	
-    @Value("${user.name.poc}")
+
+	@Value("${user.name.poc}")
 	private String userName;
-    
-    @Value("${user.password.poc}")
+
+	@Value("${user.password.poc}")
 	private String password;
 
 	@GetMapping("login")
@@ -69,7 +69,7 @@ public class LoginController {
 				response.setStatusCode(FAILED);
 				response.setMessage("User Not Found !!");
 			}  
-			
+
 		}
 		return new ResponseEntity<UserResponse>(response,status);
 	}
