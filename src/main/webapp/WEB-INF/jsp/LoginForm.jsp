@@ -27,7 +27,7 @@ $(function() {
    $('button[type=submit]').click(function(e) {
    
       //Prevent default submission of form
-      e.preventDefault();
+      e.preventDefault();  
       
 	  var pass= $('#password').val();
 	     	  
@@ -48,7 +48,7 @@ $(function() {
                $('#resultContainer pre code').text(JSON.stringify(res.message));
                $('#resultContainer pre').removeClass("redFail").addClass("greenSuccess");
 
-               $('#resultContainer').show();
+               $('#resultContainer').show();  
             
             }else{
               //Set error messages
@@ -68,9 +68,12 @@ $(function() {
                  $('#resultContainer').show();
               
               }
-
          }
+         
       })
+
+      $('#password').val(pass);
+
    });
 });
 </script>
