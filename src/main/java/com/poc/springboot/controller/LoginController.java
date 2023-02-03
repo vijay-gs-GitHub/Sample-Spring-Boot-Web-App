@@ -20,6 +20,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.poc.springboot.model.User;
 import com.poc.springboot.model.UserResponse;
+import com.poc.springboot.service.*;
+
 
 @Controller
 public class LoginController {
@@ -46,10 +48,11 @@ public class LoginController {
 			BindingResult result) {
 
 		logger.info("Inside Validate User ... ");
+		boolean authorized = true;
 		UserResponse response = new UserResponse();
 		HttpStatus status = HttpStatus.OK;
 		response.setStatus(200);
-		response.setMessage("User Found !!");
+		response.setMessage("User " + user.getUserName() + " Found !!");
 		response.setStatusCode(SUCCESS);
 
 		if(result.hasErrors()){
@@ -62,18 +65,29 @@ public class LoginController {
 			response.setStatusCode(FAILED);
 			response.setMessage(null);
 		}else{
-
-			if(!user.getUserName().equals(userName) && !user.getPassword().equals(password)){
-				status = HttpStatus.UNAUTHORIZED;
-				response.setStatus(401);
-				response.setStatusCode(FAILED);
-				response.setMessage("User Not Found !!");
-			}  
-
+			if(!user.getUserName().equals(userName)){ 
+				logger.info("User not found ");
+				authorized = false;
+			}
+			else {
+				logger.info("User found - verifying pass");
+				try{
+					authorized = UtilServ.isPasswordMatching(user.getPassword(), password);
+					}catch (Exception e){
+						e.printStackTrace();
+					}
+				}
 		}
+        
+		logger.info("User - " + user.getUserName() + " - " + ((authorized) ? "Authorized" : "UnAuthorized"));
+ 
+		if(!authorized){
+			status = HttpStatus.UNAUTHORIZED;
+			response.setStatus(401);
+			response.setStatusCode(FAILED);
+			response.setMessage("User " + user.getUserName() + " Not Found !!");
+		}
+
 		return new ResponseEntity<UserResponse>(response,status);
 	}
-
-
-
 }
